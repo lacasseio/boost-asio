@@ -1,0 +1,75 @@
+allprojects {
+    apply plugin: 'cpp'
+}
+
+model {
+    repositories {
+        libs(PrebuiltLibraries) {
+            def boostDir = "/usr/local/Cellar/boost/1.65.1"
+            def boostIncludeDir = "$boostDir/include"
+            def boostLibraryDir = "$boostDir/lib"
+            boostAsio {
+                headers.srcDir boostIncludeDir
+            }
+            boostSystem {
+                headers.srcDir boostIncludeDir
+                binaries.withType(StaticLibraryBinary) {
+                    staticLibraryFile = file("$boostLibraryDir/libboost_system.a")
+                }
+            }
+        }
+    }
+}
+
+subprojects {
+    model {
+        binaries {
+            all {
+                cppCompiler.args '-std=c++11'
+                lib project: ':', library: 'boostAsio', linkage: 'api'
+            }
+        }
+    }
+}
+
+project(':common') {
+    model {
+        components {
+            main(NativeLibrarySpec) {
+                binaries.all {
+                    lib project: ':', library: 'boostAsio', linkage: 'api'
+                    lib project: ':', library: 'boostSystem', linkage: 'static'
+                }
+            }
+        }
+    }
+}
+
+project(':client') {
+    model {
+        components {
+            main(NativeExecutableSpec) {
+                binaries.all {
+                    lib project: ':common', library: 'main', linkage: 'api'
+                    lib project: ':', library: 'boostAsio', linkage: 'api'
+                    lib project: ':', library: 'boostSystem', linkage: 'static'
+                }
+            }
+        }
+    }
+}
+
+project(':server') {
+    model {
+        components {
+            main(NativeExecutableSpec) {
+                binaries.all {
+                    lib project: ':common', library: 'main', linkage: 'api'
+                    lib project: ':', library: 'boostAsio', linkage: 'api'
+                    lib project: ':', library: 'boostSystem', linkage: 'static'
+                }
+            }
+        }
+    }
+}
+
