@@ -2,4 +2,18 @@ include 'server'
 include 'client'
 include 'common'
 
+include 'client-1'
+include 'client-2'
+include 'client-3'
+include 'client-4'
+include 'client-5'
+include 'client-6'
+
+include 'server-1'
+include 'server-2'
+include 'server-3'
+include 'server-4'
+include 'server-5'
+include 'server-6'
+
 rootProject.name = 'boost-asio'
