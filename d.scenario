@@ -1,0 +1,17 @@
+defaults {
+    versions = ["4.2.1", "4.6-20180206045006+0000"]
+    gradle-args = ["-Dorg.gradle.internal.native.headers.unresolved.dependencies.ignore=true"]
+}
+
+assemble = ${defaults} {
+  tasks = ["assemble"]
+}
+
+cleanAssemble = ${assemble} {
+  cleanup-tasks = ["clean"]
+}
+
+cleanAssembleCached = ${cleanAssemble} {
+  gradle-args = ["-Dorg.gradle.internal.native.headers.unresolved.dependencies.ignore=true", "--build-cache"]
+}
+
