@@ -8,6 +8,8 @@ model {
             def boostDir = "/usr/local/Cellar/boost/1.65.1"
             def boostIncludeDir = "$boostDir/include"
             def boostLibraryDir = "$boostDir/lib"
+
+            assert new File(boostDir).exists()
             boostAsio {
                 headers.srcDir boostIncludeDir
             }
@@ -33,16 +35,8 @@ subprojects {
 
     model {
         components {
-            if (project.path.startsWith(':client')) {
-                main(NativeExecutableSpec) {
-                    binaries.all {
-                        lib project: ':common', library: 'main', linkage: 'api'
-                        lib project: ':', library: 'boostAsio', linkage: 'api'
-                        lib project: ':', library: 'boostSystem', linkage: 'static'
-                    }
-                }
-            } else if (project.path.startsWith(':server')) {
-                main(NativeExecutableSpec) {
+            if (path.startsWith(':client-') || path.startsWith(':server-')) {
+                main(NativeLibrarySpec) {
                     binaries.all {
                         lib project: ':common', library: 'main', linkage: 'api'
                         lib project: ':', library: 'boostAsio', linkage: 'api'

@@ -1,7 +1,6 @@
-include 'server'
-include 'client'
 include 'common'
 
+include 'client-0'
 include 'client-1'
 include 'client-2'
 include 'client-3'
@@ -9,6 +8,7 @@ include 'client-4'
 include 'client-5'
 include 'client-6'
 
+include 'server-0'
 include 'server-1'
 include 'server-2'
 include 'server-3'

@@ -14,4 +14,3 @@ cleanAssemble = ${assemble} {
 cleanAssembleCached = ${cleanAssemble} {
   gradle-args = ["-Dorg.gradle.internal.native.headers.unresolved.dependencies.ignore=true", "--build-cache"]
 }
-
