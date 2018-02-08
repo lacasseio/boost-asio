@@ -30,6 +30,28 @@ subprojects {
             }
         }
     }
+
+    model {
+        components {
+            if (project.path.startsWith(':client')) {
+                main(NativeExecutableSpec) {
+                    binaries.all {
+                        lib project: ':common', library: 'main', linkage: 'api'
+                        lib project: ':', library: 'boostAsio', linkage: 'api'
+                        lib project: ':', library: 'boostSystem', linkage: 'static'
+                    }
+                }
+            } else if (project.path.startsWith(':server')) {
+                main(NativeExecutableSpec) {
+                    binaries.all {
+                        lib project: ':common', library: 'main', linkage: 'api'
+                        lib project: ':', library: 'boostAsio', linkage: 'api'
+                        lib project: ':', library: 'boostSystem', linkage: 'static'
+                    }
+                }
+            }
+        }
+    }
 }
 
 project(':common') {
@@ -37,34 +59,6 @@ project(':common') {
         components {
             main(NativeLibrarySpec) {
                 binaries.all {
-                    lib project: ':', library: 'boostAsio', linkage: 'api'
-                    lib project: ':', library: 'boostSystem', linkage: 'static'
-                }
-            }
-        }
-    }
-}
-
-project(':client') {
-    model {
-        components {
-            main(NativeExecutableSpec) {
-                binaries.all {
-                    lib project: ':common', library: 'main', linkage: 'api'
-                    lib project: ':', library: 'boostAsio', linkage: 'api'
-                    lib project: ':', library: 'boostSystem', linkage: 'static'
-                }
-            }
-        }
-    }
-}
-
-project(':server') {
-    model {
-        components {
-            main(NativeExecutableSpec) {
-                binaries.all {
-                    lib project: ':common', library: 'main', linkage: 'api'
                     lib project: ':', library: 'boostAsio', linkage: 'api'
                     lib project: ':', library: 'boostSystem', linkage: 'static'
                 }
