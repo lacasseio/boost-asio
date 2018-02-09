@@ -19,6 +19,18 @@ model {
                     staticLibraryFile = file("$boostLibraryDir/libboost_system.a")
                 }
             }
+
+            def protobufDir = "/usr/local/Cellar/protobuf/3.5.1"
+            def protobufIncludeDir = "$protobufDir/include"
+            def protobufLibraryDir = "$protobufDir/lib"
+
+            assert new File(protobufDir).exists()
+            protobuf {
+                headers.srcDir protobufIncludeDir
+                binaries.withType(StaticLibraryBinary) {
+                    staticLibraryFile = file("$protobufLibraryDir/libprotobuf.a")
+                }
+            }
         }
     }
 }
@@ -28,7 +40,6 @@ subprojects {
         binaries {
             all {
                 cppCompiler.args '-std=c++11'
-                lib project: ':', library: 'boostAsio', linkage: 'api'
             }
         }
     }
@@ -41,7 +52,47 @@ subprojects {
                         lib project: ':common', library: 'main', linkage: 'api'
                         lib project: ':', library: 'boostAsio', linkage: 'api'
                         lib project: ':', library: 'boostSystem', linkage: 'static'
+                        if (path.endsWith('1')) {
+                            lib project: ':', library: 'protobuf', linkage: 'static'
+                        }
                     }
+                }
+            }
+        }
+    }
+}
+
+project(':app') {
+    model {
+        components {
+            main(NativeExecutableSpec) {
+                binaries.all {
+                    rootProject.allprojects.findAll { it.path.startsWith(':client-') || it.path.startsWith(':server-') }.each {
+                        lib project: it.path, library: 'main'
+                    }
+                    lib project: ':common', library: 'main', linkage: 'static'
+                    lib project: ':', library: 'boostAsio', linkage: 'api'
+                    lib project: ':', library: 'boostSystem', linkage: 'static'
+                }
+            }
+        }
+    }
+}
+
+project(':empty') {
+    model {
+        components {
+            main(NativeLibrarySpec)
+        }
+    }
+}
+
+project(':proto-message') {
+    model {
+        components {
+            main(NativeLibrarySpec) {
+                binaries.all {
+                    lib project: ':', library: 'protobuf', linkage: 'static'
                 }
             }
         }

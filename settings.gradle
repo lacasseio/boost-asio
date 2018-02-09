@@ -1,4 +1,7 @@
+include 'app'
+include 'proto-message'
 include 'common'
+include 'empty'
 
 include 'client-0'
 include 'client-1'
