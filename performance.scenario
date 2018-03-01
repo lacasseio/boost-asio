@@ -1,5 +1,5 @@
 defaults {
-    versions = ["4.2.1", "4.6-20180206045006+0000"]
+    versions = ["4.2.1", "4.7-20180301002546+0000"]
     gradle-args = ["-Dorg.gradle.internal.native.headers.unresolved.dependencies.ignore=true"]
 }
 
