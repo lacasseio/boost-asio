@@ -5,7 +5,7 @@ allprojects {
 model {
     repositories {
         libs(PrebuiltLibraries) {
-            def boostDir = "/usr/local/Cellar/boost/1.65.1"
+            def boostDir = "/usr/local/Cellar/boost/1.66.0"
             def boostIncludeDir = "$boostDir/include"
             def boostLibraryDir = "$boostDir/lib"
 
@@ -40,6 +40,9 @@ subprojects {
         binaries {
             all {
                 cppCompiler.args '-std=c++11'
+
+                // See https://github.com/gradle/gradle-native/issues/551
+                cppCompiler.args '-nostdinc'
             }
         }
     }
