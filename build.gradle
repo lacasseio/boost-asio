@@ -41,8 +41,10 @@ subprojects {
             all {
                 cppCompiler.args '-std=c++11'
 
-                // See https://github.com/gradle/gradle-native/issues/551
-                cppCompiler.args '-nostdinc'
+                if (gradle.gradleVersion != '4.2.1') {
+                    // See https://github.com/gradle/gradle-native/issues/551
+                    cppCompiler.args '-nostdinc'
+                }
             }
         }
     }
