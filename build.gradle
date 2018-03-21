@@ -19,6 +19,12 @@ model {
                     staticLibraryFile = file("$boostLibraryDir/libboost_system.a")
                 }
             }
+            boostFileSystem {
+                headers.srcDir boostIncludeDir
+                binaries.withType(StaticLibraryBinary) {
+                    staticLibraryFile = file("$boostLibraryDir/libboost_filesystem.a")
+                }
+            }
 
             def protobufDir = "/usr/local/Cellar/protobuf/3.5.1"
             def protobufIncludeDir = "$protobufDir/include"
@@ -59,6 +65,9 @@ subprojects {
                         lib project: ':', library: 'boostSystem', linkage: 'static'
                         if (path.endsWith('1')) {
                             lib project: ':', library: 'protobuf', linkage: 'static'
+                        }
+                        if (path.endsWith('6')) {
+                            lib project: ':', library: 'boostFileSystem', linkage: 'static'
                         }
                     }
                 }
