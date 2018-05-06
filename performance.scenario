@@ -1,5 +1,5 @@
 defaults {
-    versions = ["4.2.1", "4.7-20180301002546+0000"]
+    //versions = ["4.2.1", "4.7-20180301002546+0000"]
     gradle-args = ["-Dorg.gradle.internal.native.headers.unresolved.dependencies.ignore=true"]
 }
 
@@ -9,6 +9,14 @@ assemble = ${defaults} {
 
 cleanAssemble = ${assemble} {
   cleanup-tasks = ["clean"]
+}
+
+assembleWithSourceFileChange = ${assemble} {
+  apply-cpp-change-to="server-6/src/main/cpp/chat_server_1.cpp"
+}
+
+assembleWithSharedHeaderFileChange = ${assemble} {
+  apply-h-change-to="common/src/main/headers/chat_message.hpp"
 }
 
 cleanAssembleCached = ${cleanAssemble} {
